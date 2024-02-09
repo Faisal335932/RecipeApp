@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     color: '#646565',
     fontSize: scale(10),
     lineHeight: scale(14),
-    fontFamily:'Poppins-Bold',
+    // fontFamily:'Poppins-Bold',
   },
   inputStyle: {
     // backgroundColor: 'lightgreen',
