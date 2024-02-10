@@ -107,15 +107,15 @@ const Receipes = () => {
           ))
         }
       </View>
-      <View style={{paddingBottom:scale(33)}}>
+      <View style={{ paddingBottom: scale(33) }}>
         <FlatList
-        showsVerticalScrollIndicator={false}
-        horizontal={false}
+          showsVerticalScrollIndicator={false}
+          horizontal={false}
           data={DATA}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.receipesList}>
               <Image source={item.url} style={styles.receipeImage} />
-              
+
               <View style={styles.receipeDetails}>
                 <Text style={styles.receipeTitle}>Chicken Biryani</Text>
                 <Text style={styles.ingredientmatchedStyle}>5 of 5 ingredients matched</Text>
@@ -140,7 +140,7 @@ const Receipes = () => {
               </View>
             </TouchableOpacity>
           )}
-          keyExtractor={(item,index) => index}
+          keyExtractor={(item, index) => index}
         />
       </View>
     </View>
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 0,
     elevation: 3,
-    marginBottom:scale(24),
+    marginBottom: scale(24),
     borderWidth: 0,
 
   },

@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const width = Dimensions.get('screen').width
 const height = Dimensions.get('screen').height
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
     const [searchHistory, setSearchHistory] = useState([
         {
             id: 1,
@@ -140,7 +140,7 @@ const HomeScreen = () => {
                 {
                     recentData.map((data, key) => (
                        
-                        <TouchableOpacity style={styles.recentContainer} key={key}>
+                        <TouchableOpacity style={styles.recentContainer} key={key} onPress={()=>navigation.navigate('Details')}>
                             <Image source={data.url} style={styles.recentImageStyle} />
                             <Text style={styles.recentTextStyle}>{data.title}</Text>
                             <View style={styles.allrecentIconContainer}>

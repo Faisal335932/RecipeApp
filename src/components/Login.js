@@ -1,56 +1,59 @@
-import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View,TextInput } from 'react-native'
+import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SelectList } from 'react-native-dropdown-select-list'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import CountryPicker from 'react-native-country-picker-modal'
 
-const width= Dimensions.get('screen').width
-const height= Dimensions.get('screen').height
+const width = Dimensions.get('screen').width
+const height = Dimensions.get('screen').height
 
 
-const Login = ({navigation}) => {
-  const [selected, setSelected] = React.useState("");
-  const [data,setdata] = useState([
+const Login = ({ navigation }) => {
+  const [withFlagButton, setwithFlagButton] = useState(false);
+  const [visibleCountry,setVisibleCountry] = useState(false)
+  const [countryCode, setCountryCode] = useState('FR')
+  const [country, setCountry] = useState(null)
+  const [withCountryNameButton, setWithCountryNameButton] = useState(
+    false,
+  )
+  const [withFlag, setWithFlag] = useState(true)
+  const [withEmoji, setWithEmoji] = useState(false)
+  const [withFilter, setWithFilter] = useState(true)
+  const [withAlphaFilter, setWithAlphaFilter] = useState(true)
+  const [withCallingCode, setWithCallingCode] = useState(true)
+  const onSelect = (country) => {
+    setCountryCode(country.cca2)
+    setCountry(country)
+  }
+  
+  const [data, setdata] = useState([
     { key: '1', value: '+92' },
     { key: '2', value: '+91' },
     { key: '3', value: '+971' },
     { key: '4', value: '+88' },
     { key: '5', value: '+1' },
-  
+
   ]);
-  const [otpInput,setOtpinput] = useState([
-    {
-      value:8,
-    },
-    {
-      value:8,
-    },
-    {
-      value:8,
-    },
-    {
-      value:8,
-    },
+  const [otpInput, setOtpinput] = useState([
+    { value: 8 },
+    { value: 8 },
+    { value: 8 },
+    { value: 8 }
   ])
-  const [loginOptions,setLoginOptions] = useState([
-    {
-      url:require('../assets/google-icon.jpg'),
-    },
-    {
-      url:require('../assets/fb-icon.jpg'),
-    },
-    {
-      url:require('../assets/insta-icon.jpg'),
-    },
+  const [loginOptions, setLoginOptions] = useState([
+    { url: require('../assets/google-icon.jpg') },
+    { url: require('../assets/fb-icon.jpg') },
+    { url: require('../assets/insta-icon.jpg') },
   ])
   return (
     <View style={styles.container}>
       <StatusBar
-      animated={true}
-      backgroundColor="#ffffff"
-      barStyle='dark-content'
-      
+        animated={true}
+        backgroundColor="#ffffff"
+        barStyle='dark-content'
+
       />
       <Image source={require('../assets/logo.png')} style={styles.imgStyle} />
       <View style={styles.headingContainer}>
@@ -61,14 +64,35 @@ const Login = ({navigation}) => {
         <Text style={styles.dummyText}>consectur adipiscing tempor incididunt.</Text>
       </View>
       <View style={styles.inputContainer}>
-        <SelectList
-
+        {/* <SelectList
           data={data}
           setSelected={setSelected}
           arrowicon={<FontAwesome name="chevron-down" size={10} color={'black'} />}
           boxStyles={styles.dropdownStyle} //override default styles
           defaultOption={{ key: '1', value: '+92' }}   //default selected option
-        />
+        /> */}
+        <TouchableOpacity  style={styles.countryCodeBtn}
+        onPress={()=> setVisibleCountry(!visibleCountry)}
+        >
+
+          <CountryPicker
+            {...{
+              countryCode,
+              withFilter,
+              withFlag,
+              withCountryNameButton,
+              withAlphaFilter,
+              withCallingCode,
+              withEmoji,
+              onSelect,
+            }}
+            onClose={()=>setVisibleCountry(!visibleCountry)}
+             withFlagButton={false}
+            visible={visibleCountry}
+          />
+          <Text style={styles.countryCodeText}>+{country?.callingCode || 92}</Text>
+          <AntDesign name='down' color={'#D84327'} size={10} />
+        </TouchableOpacity>
 
         <TextInput style={styles.inputStyle} placeholder='Phone No' />
       </View >
@@ -76,12 +100,12 @@ const Login = ({navigation}) => {
       <View style={styles.optContainer}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           {
-            otpInput.map((data,index)=>(
+            otpInput.map((data, index) => (
               <TextInput style={styles.optInputStyle} placeholder={data.value.toString()} placeholderTextColor={'#000000'} key={index} />
-              
+
             ))
           }
-          
+
 
         </View>
         <View style={styles.resendOtpContainer}>
@@ -92,7 +116,7 @@ const Login = ({navigation}) => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.loginBtnStyle}>
+      <TouchableOpacity style={styles.loginBtnStyle} onPress={()=>navigation.replace('HomeScreen')} >
         <Text style={styles.loginTextStyle}>Login</Text>
       </TouchableOpacity>
 
@@ -101,12 +125,12 @@ const Login = ({navigation}) => {
         <Text style={styles.continueTextStyle}>Continue With</Text>
         <View style={styles.iconsContainer}>
           {
-            loginOptions.map((data,index)=>(
-              <Image source={data.url} style={styles.loginOptionStyle} key={index}/>
+            loginOptions.map((data, index) => (
+              <Image source={data.url} style={styles.loginOptionStyle} key={index} />
 
             ))
           }
-          
+
         </View>
       </View>
       <TouchableOpacity>
@@ -261,6 +285,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     width: scale(20.5),
     height: scale(20.5),
+  },
+  countryCodeBtn:{
+    flexDirection:'row',
+    alignItems:'center',
+    width:scale(40),
+    justifyContent:'space-between',
+    paddingLeft:scale(9),
+    marginRight:scale(3),
+  },
+  countryCodeText:{
+    color:'#D84327',
+    fontWeight:'500',
+    fontSize:scale(10)
   }
 
 })

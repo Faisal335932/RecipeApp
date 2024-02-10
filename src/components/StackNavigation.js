@@ -5,6 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import Splash from './Splash';
 import Login from './Login';
 import HomeScreen from './HomeScreen';
+import Details2 from './Details2';
+import Details from './Details';
+import NestedNavigation from './NestedNavigation';
 
 const Stack = createStackNavigator();
 
@@ -12,9 +15,12 @@ const StackNavigation = () => {
   return (
     <NavigationContainer>
         <Stack.Navigator>
+            <Stack.Screen name='NestedNavigation' component={NestedNavigation} options={{headerShown:false}} />
             <Stack.Screen name='Splash' component={Splash} options={{headerShown:false}} />
             <Stack.Screen name='Login' component={Login} options={{headerShown:false}}/>
             <Stack.Screen name='HomeScreen' component={HomeScreen} options={{headerShown:false}} />
+            <Stack.Screen name='Details' component={Details} options={{headerShown:false}} />
+            <Stack.Screen name='Details2' component={Details2} options={{headerShown:false}} />
         </Stack.Navigator>
 
     </NavigationContainer>
